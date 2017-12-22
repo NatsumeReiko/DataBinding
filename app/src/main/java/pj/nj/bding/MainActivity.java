@@ -5,6 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import pj.nj.bding.bding.DataBindingActivity;
+import pj.nj.bding.bding.NormalActivity;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     @Override

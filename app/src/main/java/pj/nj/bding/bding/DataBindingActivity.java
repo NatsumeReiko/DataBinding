@@ -1,21 +1,21 @@
-package pj.nj.bding;
+package pj.nj.bding.bding;
 
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import pj.nj.bding.R;
 import pj.nj.bding.model.User;
+import pj.nj.bding.databinding.ListItemRowBdingBinding;
 
-public class NormalActivity extends AppCompatActivity {
-
+public class DataBindingActivity extends AppCompatActivity {
     RecyclerView recyclerView;
 
     @Override
@@ -27,8 +27,7 @@ public class NormalActivity extends AppCompatActivity {
         recyclerView.setAdapter(new UserAdapter(User.getUsers()));
     }
 
-
-    public static class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
+    public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
         private List<User> mUsers = new ArrayList<>();
 
@@ -39,8 +38,8 @@ public class NormalActivity extends AppCompatActivity {
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-            View view = inflater.inflate(R.layout.list_item_row_normal, parent, false);
-            return new ViewHolder(view);
+            ListItemRowBdingBinding binding = DataBindingUtil.inflate(inflater, R.layout.list_item_row_bding, parent, false);
+            return new ViewHolder(binding);
         }
 
         @Override
@@ -55,17 +54,15 @@ public class NormalActivity extends AppCompatActivity {
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
-            public TextView mFirstName, mLastName;
-
-            public ViewHolder(View itemView) {
-                super(itemView);
-                mFirstName = (TextView) itemView.findViewById(R.id.firstName);
-                mLastName = (TextView) itemView.findViewById(R.id.lastName);
+            private ListItemRowBdingBinding mBinding;
+            public ViewHolder(ListItemRowBdingBinding binding) {
+                super(binding.getRoot());
+                mBinding = binding;
             }
 
-            public void bind(User user) {
-                mFirstName.setText(user.getFirstName());
-                mLastName.setText(user.getLastName());
+            public void bind(@NonNull User user) {
+                mBinding.setUser(user);
+                mBinding.executePendingBindings();
             }
         }
     }
